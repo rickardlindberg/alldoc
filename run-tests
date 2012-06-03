@@ -1,0 +1,3 @@
+#!/bin/sh
+./compile-app &&
+./dist/build/test-alldoc/test-alldoc
