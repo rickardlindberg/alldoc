@@ -14,6 +14,22 @@ data DocPiece =
         }
     deriving (Eq, Show)
 
+docContains :: [DocPiece] -> String -> Bool
+docContains doc path = matchDoc (splitNamespace path) doc
+    where
+        matchDoc :: [String] -> [DocPiece] -> Bool
+        matchDoc []     doc = False
+        matchDoc [x]    doc = length (namesMatching x doc) > 0
+        matchDoc (x:xs) doc = matchDoc xs (expand (namesMatching x doc))
+        expand :: [DocPiece] -> [DocPiece]
+        expand []                   = []
+        expand (Namespace _ _ x:xs) = x ++ expand xs
+        expand (_:xs)               = expand xs
+        namesMatching :: String -> [DocPiece] -> [DocPiece]
+        namesMatching n = filter (hasName n)
+        hasName :: String -> DocPiece -> Bool
+        hasName n thing = name thing == n
+
 merge :: [DocPiece] -> [DocPiece] -> [DocPiece]
 merge a b = a ++ b
 

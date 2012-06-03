@@ -1,11 +1,12 @@
 module Asserts where
 
 import Control.Monad
+import DocPiece
 import Test.HUnit
 
-assertContains :: (Eq a, Show a) => [a] -> a -> Assertion
-assertContains list item =
+assertContains :: [DocPiece] -> String -> Assertion
+assertContains doc item =
     unless
-        (item `elem` list)
+        (docContains doc item)
         (assertFailure $ "Expected to find " ++ show item ++
-                         " in " ++ show list)
+                         " in " ++ show doc)

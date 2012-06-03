@@ -13,13 +13,16 @@ main = hspecX $ do
 
         it "finds method names" $ do
             soup <- soupFromFile "sample-docs/android-Matrix.hml"
-            extractMethodNames soup `assertContains` "setRotate"
+            parseClass soup `assertContains` "android.graphics.Matrix.setRotate"
 
     describe "doc pieces:" $ do
 
         it "can prefix with namespace" $ do
             let l = [DocPiece "Foo" "", DocPiece "Bar" ""]
             prefixWithNamespace "foo.bar" l @?= [Namespace "foo" "" [Namespace "bar" "" l]]
+
+        it "can check existence" $
+            [Namespace "foo" "" [Namespace "bar" "" []]] `assertContains` "foo.bar"
 
         describe "merging:" $ do
 
