@@ -1,13 +1,33 @@
 import Android
 import Asserts
+import DocPiece
+import Fixtures()
 import Test.Hspec.HUnit()
 import Test.Hspec.Monadic
-import Test.HUnit()
+import Test.Hspec.QuickCheck
+import Test.HUnit
 
-main = hspecX $
+main = hspecX $ do
 
     describe "Android SDK extractor:" $
 
         it "finds method names" $ do
             soup <- soupFromFile "sample-docs/android-Matrix.hml"
             extractMethodNames soup `assertContains` "setRotate"
+
+    describe "doc pieces:" $
+
+        describe "merging:" $ do
+
+            it "can be merged" $ do
+                let p1 = (DocPiece "" "")
+                let p2 = (DocPiece "" "")
+                merge [p1] [p2] @?= [p1, p2]
+
+            prop "keeps number of leaf pieces" $ \(p1, p2) ->
+                let numLeaves :: [DocPiece] -> Int
+                    numLeaves xs = sum (map countLeaves xs)
+                    countLeaves :: DocPiece -> Int
+                    countLeaves (DocPiece _ _) = 1
+                    countLeaves (Namespace _ _ s) = sum (map countLeaves s)
+                in  numLeaves (merge p1 p2) == numLeaves p1 + numLeaves p2
