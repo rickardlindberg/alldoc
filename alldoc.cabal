@@ -26,6 +26,7 @@ executable alldoc
     ghc-options:      -fwarn-unused-imports -Werror
   build-depends:      base >= 4 && <= 5
                ,      haskell98
+               ,      tagsoup
 
 Test-Suite test-alldoc
   type:               exitcode-stdio-1.0
@@ -37,6 +38,7 @@ Test-Suite test-alldoc
     ghc-options:      -fwarn-unused-imports -Werror
   build-depends:      base >= 4 && <= 5
                ,      haskell98
+               ,      tagsoup
 
                ,      QuickCheck
                ,      hspec

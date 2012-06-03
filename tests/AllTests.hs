@@ -1,10 +1,13 @@
+import Android
+import Asserts
 import Test.Hspec.HUnit()
 import Test.Hspec.Monadic
-import Test.HUnit
+import Test.HUnit()
 
 main = hspecX $
 
-    describe "the program" $
+    describe "Android SDK extractor:" $
 
-        it "does not exist yet" $
-            1 @?= 1
+        it "finds method names" $ do
+            soup <- soupFromFile "sample-docs/android-Matrix.hml"
+            extractMethodNames soup `assertContains` "setRotate"
