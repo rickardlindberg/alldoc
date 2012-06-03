@@ -27,6 +27,7 @@ executable alldoc
   build-depends:      base >= 4 && <= 5
                ,      haskell98
                ,      tagsoup
+               ,      split
 
 Test-Suite test-alldoc
   type:               exitcode-stdio-1.0
@@ -39,6 +40,7 @@ Test-Suite test-alldoc
   build-depends:      base >= 4 && <= 5
                ,      haskell98
                ,      tagsoup
+               ,      split
 
                ,      QuickCheck
                ,      hspec
