@@ -9,23 +9,25 @@ import Test.Hspec.Monadic
 import Test.Hspec.QuickCheck
 import Test.HUnit
 
-tests = describe "doc pieces:" $ do
+tests = describe "Definitions:" $ do
 
-    it "can prefix with namespace" $ do
-        let l = [Definition "Foo" "", Definition "Bar" ""]
-        prefixWithNamespace "foo.bar" l @?= [Namespace "foo" "" [Namespace "bar" "" l]]
+    it "can be queried for existence" $ do
+        let defs = [Namespace "foo" "" [Namespace "bar" "" []]]
+        defs `assertContains` "foo.bar"
 
-    it "can check existence" $
-        [Namespace "foo" "" [Namespace "bar" "" []]] `assertContains` "foo.bar"
+    it "can be prefixed with a namespace" $ do
+        let defs = [Definition "Foo" "", Definition "Bar" ""]
+        prefixWithNamespace "foo.bar" defs
+            @?= [Namespace "foo" "" [Namespace "bar" "" defs]]
 
-    describe "merging:" $ do
+    it "can be merged" $ do
+        let p1 = Definition "" ""
+        let p2 = Definition "" ""
+        merge [p1] [p2] @?= [p1, p2]
 
-        it "can be merged" $ do
-            let p1 = Definition "" ""
-            let p2 = Definition "" ""
-            merge [p1] [p2] @?= [p1, p2]
+    describe "Merging:" $ do
 
-        prop "keeps number of leaf pieces" $ \(p1, p2) ->
+        prop "keeps the number of leaves constant" $ \(p1, p2) ->
             let numLeaves :: [DefTree] -> Int
                 numLeaves xs = sum (map countLeaves xs)
                 countLeaves :: DefTree -> Int
