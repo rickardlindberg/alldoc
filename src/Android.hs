@@ -4,9 +4,6 @@ import Definitions
 import Text.HTML.TagSoup
 import Text.StringLike
 
-soupFromFile :: FilePath -> IO [Tag String]
-soupFromFile file = fmap parseTags (readFile file)
-
 parseClass :: StringLike str => [Tag str] -> [DefTree]
 parseClass doc =
        (prefixWithNamespace (parseClassNamespaceName doc)

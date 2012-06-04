@@ -29,6 +29,7 @@ executable alldoc
                ,      tagsoup
                ,      split
                ,      containers
+               ,      filepath
 
 Test-Suite test-alldoc
   type:               exitcode-stdio-1.0
@@ -43,6 +44,7 @@ Test-Suite test-alldoc
                ,      tagsoup
                ,      split
                ,      containers
+               ,      filepath
 
                ,      QuickCheck
                ,      hspec

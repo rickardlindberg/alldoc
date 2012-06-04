@@ -2,6 +2,7 @@ module TestAndroidDocs (tests) where
 
 import Android
 import Asserts
+import DirScanner
 import Fixtures()
 import Test.Hspec.HUnit()
 import Test.Hspec.Monadic

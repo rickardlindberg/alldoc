@@ -1,4 +1,10 @@
 module Main (main) where
 
+import DirScanner
+import qualified Android
+
 main :: IO ()
-main = putStrLn "not implemented yet"
+main = do
+    let androidApiDocDir = "/home/rick/downloads/android-sdk-linux/docs/reference/"
+    defs <- scanHtmlDocs androidApiDocDir Android.parseClass
+    print defs
