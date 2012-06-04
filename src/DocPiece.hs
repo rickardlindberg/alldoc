@@ -8,7 +8,7 @@ data DocPiece =
         , url       :: String
         , subPieces :: [DocPiece]
         }
-    | DocPiece
+    | Definition
         { name      :: String
         , url       :: String
         }

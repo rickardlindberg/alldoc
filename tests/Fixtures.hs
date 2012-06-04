@@ -17,13 +17,13 @@ instance Arbitrary DocPiece where
         where
             tree 0 = leaf
             tree n = oneof [ leaf , node (n `div` 2) ]
-            leaf   = liftM2 DocPiece  (return "") (return "")
+            leaf   = liftM2 Definition (return "") (return "")
             node n = liftM3 Namespace (nsName n) (return "") (subNodes n)
             subNodes n = do
                 x <- listOf (tree n)
                 return $ map prefix (zip [1..length x] x)
             nsName n = return $ "ns" ++ show n
 
-    shrink (DocPiece _ _)     = []
+    shrink (Definition _ _)   = []
     shrink (Namespace _ _ []) = []
     shrink (Namespace a b _)  = [Namespace a b []]

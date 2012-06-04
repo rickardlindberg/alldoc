@@ -10,7 +10,7 @@ soupFromFile file = fmap parseTags (readFile file)
 parseClass :: StringLike str => [Tag str] -> [DocPiece]
 parseClass doc =
        (prefixWithNamespace (parseClassNamespaceName doc)
-     . map ((`DocPiece` "") . toString . ((\(TagText x) -> x) . head) . head . sections isTagText)
+     . map ((`Definition` "") . toString . ((\(TagText x) -> x) . head) . head . sections isTagText)
      . sections (~== "<span class=sympad>")
      . head
      . sections (~== "<div id=doc-content>"))

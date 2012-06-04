@@ -16,7 +16,7 @@ main = hspecX $ do
     describe "doc pieces:" $ do
 
         it "can prefix with namespace" $ do
-            let l = [DocPiece "Foo" "", DocPiece "Bar" ""]
+            let l = [Definition "Foo" "", Definition "Bar" ""]
             prefixWithNamespace "foo.bar" l @?= [Namespace "foo" "" [Namespace "bar" "" l]]
 
         it "can check existence" $
@@ -25,8 +25,8 @@ main = hspecX $ do
         describe "merging:" $ do
 
             it "can be merged" $ do
-                let p1 = DocPiece "" ""
-                let p2 = DocPiece "" ""
+                let p1 = Definition "" ""
+                let p2 = Definition "" ""
                 merge [p1] [p2] @?= [p1, p2]
 
             prop "keeps number of leaf pieces" $ forAll validDoc $ \p1 ->
@@ -34,7 +34,7 @@ main = hspecX $ do
                 let numLeaves :: [DocPiece] -> Int
                     numLeaves xs = sum (map countLeaves xs)
                     countLeaves :: DocPiece -> Int
-                    countLeaves (DocPiece _ _) = 1
+                    countLeaves (Definition _ _) = 1
                     countLeaves (Namespace _ _ s) = sum (map countLeaves s)
                 in  numLeaves (merge p1 p2) == numLeaves p1 + numLeaves p2
 
