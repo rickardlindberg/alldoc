@@ -1,7 +1,7 @@
-import Android
 import Asserts
 import DocPiece
 import Fixtures()
+import qualified TestAndroidDocs
 import Test.Hspec.HUnit()
 import Test.Hspec.Monadic
 import Test.Hspec.QuickCheck
@@ -9,11 +9,7 @@ import Test.HUnit
 
 main = hspecX $ do
 
-    describe "Android SDK extractor:" $
-
-        it "finds method names" $ do
-            soup <- soupFromFile "sample-docs/android-Matrix.hml"
-            parseClass soup `assertContains` "android.graphics.Matrix.setRotate"
+    TestAndroidDocs.tests
 
     describe "doc pieces:" $ do
 
