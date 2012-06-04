@@ -5,8 +5,8 @@ import Definitions
 import Test.HUnit
 
 assertContains :: [DefTree] -> String -> Assertion
-assertContains doc item =
+assertContains tree definitionPath =
     unless
-        (docContains doc item)
-        (assertFailure $ "Expected to find " ++ show item ++
-                         " in " ++ show doc)
+        (definitionPath `existsIn` tree)
+        (assertFailure $ "Expected to find " ++ show definitionPath ++
+                         " in " ++ show tree)

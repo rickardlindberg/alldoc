@@ -14,13 +14,13 @@ data DefTree =
         }
     deriving (Eq, Show)
 
-docContains :: [DefTree] -> String -> Bool
-docContains doc path = matchDoc (splitNamespace path) doc
+existsIn :: String -> [DefTree] -> Bool
+existsIn definitionPath tree = matchDoc (splitNamespace definitionPath) tree
     where
         matchDoc :: [String] -> [DefTree] -> Bool
-        matchDoc []     doc = False
-        matchDoc [x]    doc = length (namesMatching x doc) > 0
-        matchDoc (x:xs) doc = matchDoc xs (expand (namesMatching x doc))
+        matchDoc []     tree = False
+        matchDoc [x]    tree = length (namesMatching x tree) > 0
+        matchDoc (x:xs) tree = matchDoc xs (expand (namesMatching x tree))
         expand :: [DefTree] -> [DefTree]
         expand []                   = []
         expand (Namespace _ _ x:xs) = x ++ expand xs
