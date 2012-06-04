@@ -7,7 +7,7 @@ import Text.StringLike
 soupFromFile :: FilePath -> IO [Tag String]
 soupFromFile file = fmap parseTags (readFile file)
 
-parseClass :: StringLike str => [Tag str] -> [DocPiece]
+parseClass :: StringLike str => [Tag str] -> [DefTree]
 parseClass doc =
        (prefixWithNamespace (parseClassNamespaceName doc)
      . map ((`Definition` "") . toString . ((\(TagText x) -> x) . head) . head . sections isTagText)

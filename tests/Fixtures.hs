@@ -4,7 +4,7 @@ import Control.Monad
 import DocPiece
 import Test.QuickCheck
 
-validDoc :: Gen [DocPiece]
+validDoc :: Gen [DefTree]
 validDoc = do
     x <- listOf arbitrary
     return $ map prefix (zip [1..length x] x)
@@ -12,7 +12,7 @@ validDoc = do
 prefix (n, Namespace a b c) = Namespace (show n ++ a) b c
 prefix (_, x)               = x
 
-instance Arbitrary DocPiece where
+instance Arbitrary DefTree where
     arbitrary = resize 10 $ sized tree
         where
             tree 0 = leaf

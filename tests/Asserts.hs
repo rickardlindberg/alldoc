@@ -4,7 +4,7 @@ import Control.Monad
 import DocPiece
 import Test.HUnit
 
-assertContains :: [DocPiece] -> String -> Assertion
+assertContains :: [DefTree] -> String -> Assertion
 assertContains doc item =
     unless
         (docContains doc item)

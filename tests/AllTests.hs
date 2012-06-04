@@ -31,9 +31,9 @@ main = hspecX $ do
 
             prop "keeps number of leaf pieces" $ forAll validDoc $ \p1 ->
                                                  forAll validDoc $ \p2 ->
-                let numLeaves :: [DocPiece] -> Int
+                let numLeaves :: [DefTree] -> Int
                     numLeaves xs = sum (map countLeaves xs)
-                    countLeaves :: DocPiece -> Int
+                    countLeaves :: DefTree -> Int
                     countLeaves (Definition _ _) = 1
                     countLeaves (Namespace _ _ s) = sum (map countLeaves s)
                 in  numLeaves (merge p1 p2) == numLeaves p1 + numLeaves p2
