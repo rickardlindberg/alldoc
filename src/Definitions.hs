@@ -59,3 +59,10 @@ pathSeparator = "."
 
 pathComponents :: String -> [String]
 pathComponents = splitOn pathSeparator
+
+numLeaves :: [DefTree] -> Int
+numLeaves xs = sum (map countLeaves xs)
+    where
+        countLeaves :: DefTree -> Int
+        countLeaves (Definition _ _) = 1
+        countLeaves (Namespace _ _ s) = sum (map countLeaves s)
