@@ -27,8 +27,8 @@ main = hspecX $ do
         describe "merging:" $ do
 
             it "can be merged" $ do
-                let p1 = (DocPiece "" "")
-                let p2 = (DocPiece "" "")
+                let p1 = DocPiece "" ""
+                let p2 = DocPiece "" ""
                 merge [p1] [p2] @?= [p1, p2]
 
             prop "keeps number of leaf pieces" $ \(p1, p2) ->
