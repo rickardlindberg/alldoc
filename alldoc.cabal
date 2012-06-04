@@ -28,6 +28,7 @@ executable alldoc
                ,      haskell98
                ,      tagsoup
                ,      split
+               ,      containers
 
 Test-Suite test-alldoc
   type:               exitcode-stdio-1.0
@@ -41,6 +42,7 @@ Test-Suite test-alldoc
                ,      haskell98
                ,      tagsoup
                ,      split
+               ,      containers
 
                ,      QuickCheck
                ,      hspec

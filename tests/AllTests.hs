@@ -1,11 +1,13 @@
 import Asserts
 import DocPiece
-import Fixtures()
+import Fixtures
+import qualified Data.Set as S
 import qualified TestAndroidDocs
 import Test.Hspec.HUnit()
 import Test.Hspec.Monadic
 import Test.Hspec.QuickCheck
 import Test.HUnit
+import Test.QuickCheck
 
 main = hspecX $ do
 
@@ -27,10 +29,16 @@ main = hspecX $ do
                 let p2 = DocPiece "" ""
                 merge [p1] [p2] @?= [p1, p2]
 
-            prop "keeps number of leaf pieces" $ \(p1, p2) ->
+            prop "keeps number of leaf pieces" $ forAll validDoc $ \p1 ->
+                                                 forAll validDoc $ \p2 ->
                 let numLeaves :: [DocPiece] -> Int
                     numLeaves xs = sum (map countLeaves xs)
                     countLeaves :: DocPiece -> Int
                     countLeaves (DocPiece _ _) = 1
                     countLeaves (Namespace _ _ s) = sum (map countLeaves s)
                 in  numLeaves (merge p1 p2) == numLeaves p1 + numLeaves p2
+
+            prop "merges namespaces" $ forAll validDoc $ \p1 ->
+                                       forAll validDoc $ \p2 ->
+                let unique lst = length lst == S.size (S.fromList lst)
+                in  unique (namespaces (merge p1 p2))
