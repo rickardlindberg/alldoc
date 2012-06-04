@@ -1,6 +1,6 @@
 module Android where
 
-import DocPiece
+import Definitions
 import Text.HTML.TagSoup
 import Text.StringLike
 

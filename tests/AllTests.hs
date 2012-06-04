@@ -1,5 +1,5 @@
 import Asserts
-import DocPiece
+import Definitions
 import Fixtures
 import qualified Data.Set as S
 import qualified TestAndroidDocs

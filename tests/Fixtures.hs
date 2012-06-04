@@ -1,7 +1,7 @@
 module Fixtures where
 
 import Control.Monad
-import DocPiece
+import Definitions
 import Test.QuickCheck
 
 validDoc :: Gen [DefTree]

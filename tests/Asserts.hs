@@ -1,7 +1,7 @@
 module Asserts where
 
 import Control.Monad
-import DocPiece
+import Definitions
 import Test.HUnit
 
 assertContains :: [DefTree] -> String -> Assertion

@@ -1,4 +1,4 @@
-module DocPiece where
+module Definitions where
 
 import Data.List.Split
 
