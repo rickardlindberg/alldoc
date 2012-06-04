@@ -15,7 +15,7 @@ data DefTree =
     deriving (Eq, Show)
 
 existsIn :: String -> [DefTree] -> Bool
-existsIn definitionPath tree = matchDoc (splitNamespace definitionPath) tree
+existsIn definitionPath tree = matchDoc (pathComponents definitionPath) tree
     where
         matchDoc :: [String] -> [DefTree] -> Bool
         matchDoc []     tree = False
@@ -46,14 +46,16 @@ sameNamespace _                    _                    = False
 
 namespaces :: [DefTree] -> [String]
 namespaces [] = []
-namespaces (Namespace n _ ns:xs) = n : map (\x -> n ++ "." ++ x) (namespaces ns) ++ namespaces xs
+namespaces (Namespace n _ ns:xs) = n : map (\x -> n ++ pathSeparator ++ x) (namespaces ns) ++ namespaces xs
 namespaces (_:xs) = namespaces xs
 
 prefixWithNamespace :: String -> [DefTree] -> [DefTree]
-prefixWithNamespace namespace items = [ns (splitNamespace namespace)]
+prefixWithNamespace namespace items = [ns (pathComponents namespace)]
     where
         ns [x]    = Namespace x "" items
         ns (x:xs) = Namespace x "" [ns xs]
 
-splitNamespace :: String -> [String]
-splitNamespace = splitOn "."
+pathSeparator = "."
+
+pathComponents :: String -> [String]
+pathComponents = splitOn pathSeparator
