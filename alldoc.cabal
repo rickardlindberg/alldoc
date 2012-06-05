@@ -31,6 +31,7 @@ executable alldoc
                ,      containers
                ,      filepath
                ,      directory
+               ,      bytestring
 
 Test-Suite test-alldoc
   type:               exitcode-stdio-1.0
@@ -47,6 +48,7 @@ Test-Suite test-alldoc
                ,      containers
                ,      filepath
                ,      directory
+               ,      bytestring
 
                ,      QuickCheck
                ,      hspec
