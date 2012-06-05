@@ -6,5 +6,5 @@ import qualified Android
 main :: IO ()
 main = do
     let androidApiDocDir = "/home/rick/downloads/android-sdk-linux/docs/reference/"
-    defs <- scanHtmlDocs androidApiDocDir Android.parseClass
+    defs <- scanHtmlDocs androidApiDocDir Android.scanTags
     print defs

@@ -11,4 +11,4 @@ tests = describe "Android SDK extractor:" $
 
     it "finds method names" $ do
         soup <- soupFromFile "sample-docs/android/Matrix.html"
-        parseClass soup `assertContains` "android.graphics.Matrix.setRotate"
+        scanTags soup `assertContains` "android.graphics.Matrix.setRotate"
