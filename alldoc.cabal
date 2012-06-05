@@ -30,6 +30,7 @@ executable alldoc
                ,      split
                ,      containers
                ,      filepath
+               ,      directory
 
 Test-Suite test-alldoc
   type:               exitcode-stdio-1.0
@@ -45,6 +46,7 @@ Test-Suite test-alldoc
                ,      split
                ,      containers
                ,      filepath
+               ,      directory
 
                ,      QuickCheck
                ,      hspec

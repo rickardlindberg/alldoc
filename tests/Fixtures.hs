@@ -1,7 +1,11 @@
 module Fixtures where
 
+import Control.Exception
 import Control.Monad
 import Definitions
+import System.Directory
+import System.FilePath
+import System.IO
 import Test.QuickCheck
 
 instance Arbitrary DefTree where
@@ -20,3 +24,15 @@ instance Arbitrary DefTree where
     shrink (Definition _ _)   = []
     shrink (Namespace _ _ []) = []
     shrink (Namespace a b _)  = [Namespace a b []]
+
+withTmpDir :: (FilePath -> IO a) -> IO a
+withTmpDir = bracket setUp tearDown
+    where
+        tmpDir   = "/tmp/alldoc-test"
+        setUp    = createDirectory tmpDir >> return tmpDir
+        tearDown = removeDirectoryRecursive
+
+createEmptyFile :: FilePath -> IO FilePath
+createEmptyFile path =
+    createDirectoryIfMissing True (takeDirectory path) >>
+    openFile path WriteMode >>= hClose >> return path

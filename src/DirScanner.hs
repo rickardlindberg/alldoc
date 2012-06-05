@@ -1,17 +1,35 @@
 module DirScanner where
 
+import Control.Monad
+import Data.List
 import Definitions
+import System.Directory
 import System.FilePath
 import Text.HTML.TagSoup
 
 scanHtmlDocs :: FilePath -> ([Tag String] -> [DefTree]) -> IO [DefTree]
 scanHtmlDocs dir scanner = do
-    files <- findHtmlFiles dir
-    tags <- mapM soupFromFile files
-    return $ foldr (merge . scanner) [] tags
+    files  <- findHtmlFiles dir
+    tags   <- mapM soupFromFile files
+    return $  foldr (merge . scanner) [] tags
 
 findHtmlFiles :: FilePath -> IO [FilePath]
-findHtmlFiles root = return [root </> "android/graphics/Matrix.html"]
+findHtmlFiles root = do
+    htmlFiles    <- htmlFilesIn root
+    subHtmlFiles <- directoriesIn root >>= mapM (\x -> findHtmlFiles (root </> x))
+    return $ htmlFiles ++ concat subHtmlFiles
+
+htmlFilesIn :: FilePath -> IO [FilePath]
+htmlFilesIn dir = do
+    files <- getDirectoryContents dir
+    let htmlFiles = filter (".html" `isSuffixOf`) files
+    return $ map (dir </>) htmlFiles
+
+directoriesIn :: FilePath -> IO [FilePath]
+directoriesIn dir = do
+    files <- getDirectoryContents dir
+    let regularFiles = filter (`notElem` [".", ".."]) files
+    filterM (doesDirectoryExist . (dir </>)) regularFiles
 
 soupFromFile :: FilePath -> IO [Tag String]
 soupFromFile file = fmap parseTags (readFile file)
