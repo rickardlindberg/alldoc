@@ -16,17 +16,16 @@ maybeClass tags = do
     return $ prefixWithNamespace ns defs
 
 maybeClassNamespace :: StringLike str => [Tag str] -> Maybe String
-maybeClassNamespace tags = do
-    let a1 = sections (~== "<table class=jd-inheritance-table>") tags
-    a2 <- maybeHead a1
-    let a3 = sections (~== "<td class=jd-inheritance-class-cell") a2
-    a4 <- maybeLast a3
-    maybeFirstText a4
+maybeClassNamespace tags = Just tags
+    >>= justSections (~== "<table class=jd-inheritance-table>")
+    >>= maybeHead
+    >>= justSections (~== "<td class=jd-inheritance-class-cell")
+    >>= maybeLast
+    >>= maybeFirstText
 
 maybeClassDefinitions :: StringLike str => [Tag str] -> Maybe [DefTree]
-maybeClassDefinitions tags = do
-     let a1 = sections (~== "<div id=doc-content>") tags
-     a2 <- maybeHead a1
-     let a3 = sections (~== "<span class=sympad>") a2
-     let a4 = map ((`Definition` "") . toString . ((\(TagText x) -> x) . head) . head . sections isTagText) a3
-     return a4
+maybeClassDefinitions tags = Just tags
+    >>= justSections (~== "<div id=doc-content>")
+    >>= maybeHead
+    >>= justSections (~== "<span class=sympad>")
+    >>= Just . map ((`Definition` "") . toString . ((\(TagText x) -> x) . head) . head . sections isTagText)

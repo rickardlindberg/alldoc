@@ -4,6 +4,8 @@ import Data.Maybe
 import Text.HTML.TagSoup
 import Text.StringLike
 
+justSections a = Just . sections a
+
 maybeFirstText :: StringLike str => [Tag str] -> Maybe String
 maybeFirstText tags = do
     let a1 = sections isTagText tags
