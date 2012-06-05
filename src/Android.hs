@@ -2,6 +2,7 @@ module Android where
 
 import Data.Maybe
 import Definitions
+import TagSoupHelpers
 import Text.HTML.TagSoup
 import Text.StringLike
 
@@ -30,10 +31,3 @@ maybeClassNamespace tags = do
     a4 <- maybeLast a3
     let a5 = firstText a4
     return a5
-
-maybeHead = listToMaybe
-
-maybeLast = listToMaybe . reverse
-
-firstText :: StringLike str => [Tag str] -> String
-firstText = toString . ((\(TagText x) -> x) . head) . head . sections isTagText
