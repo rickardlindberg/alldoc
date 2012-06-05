@@ -29,5 +29,4 @@ maybeClassNamespace tags = do
     a2 <- maybeHead a1
     let a3 = sections (~== "<td class=jd-inheritance-class-cell") a2
     a4 <- maybeLast a3
-    let a5 = firstText a4
-    return a5
+    maybeFirstText a4
