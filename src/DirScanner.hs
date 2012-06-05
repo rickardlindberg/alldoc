@@ -11,7 +11,10 @@ scanHtmlDocs :: FilePath -> ([Tag String] -> [DefTree]) -> IO [DefTree]
 scanHtmlDocs dir scanner = do
     files  <- findHtmlFiles dir
     tags   <- mapM soupFromFile files
-    return $  foldr (merge . scanner) [] tags
+    return $  foldr foldTrees [] tags
+    where
+        foldTrees :: [Tag String] -> [DefTree] -> [DefTree]
+        foldTrees x y = scanner x ++ y
 
 findHtmlFiles :: FilePath -> IO [FilePath]
 findHtmlFiles root = do
