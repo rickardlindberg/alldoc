@@ -20,4 +20,4 @@ tests = describe "android scanner:" $ do
     it "finds method urls" $ do
         defs <- scanFile "sample-docs/android/Matrix.html"
         let Just def = find "android.graphics.Matrix.setRotate" defs
-        url def @?= "../../../reference/android/graphics/Matrix.html#setRotate(float)"
+        url def @?= "file://sample-docs/android/../../../reference/android/graphics/Matrix.html#setRotate(float)"
