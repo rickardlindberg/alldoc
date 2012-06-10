@@ -8,7 +8,7 @@ import Test.Hspec.Monadic
 import Test.Hspec.QuickCheck
 import Test.HUnit
 
-tests = describe "Definitions:" $ do
+tests = describe "definitions:" $ do
 
     it "can be queried for existence" $ do
         let defs = [Namespace "foo" "" [Namespace "bar" "" []]]
@@ -24,7 +24,7 @@ tests = describe "Definitions:" $ do
         let def2 = Definition "bar" ""
         merge [def1] [def2] @?= [def2, def1]
 
-    describe "Merging:" $ do
+    describe "merging:" $ do
 
         prop "keeps the number of leaves constant" $ \(def1, def2) ->
             numLeaves (merge [def1] [def2]) == numLeaves [def1] + numLeaves [def2]

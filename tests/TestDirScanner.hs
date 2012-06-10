@@ -9,7 +9,7 @@ import Test.Hspec.Monadic
 import Test.HUnit
 import Text.HTML.TagSoup
 
-tests = describe "DirScanner:" $ do
+tests = describe "dir scanner:" $ do
 
     it "finds html files recursively" $ withTmpDir $ \tmpDir -> do
         createEmptyFile $ tmpDir </> "a.html"
@@ -22,8 +22,8 @@ tests = describe "DirScanner:" $ do
                    ]
 
     it "scans html files in directory" $ do
-        defTree <- scanHtmlDocs "sample-docs/android" testScanner
+        defTree <- scanHtmlDocs "sample-docs/android" (constScanner (Definition "" ""))
         defTree @?= [Definition "" "", Definition "" ""]
 
-testScanner :: FilePath -> [Tag String] -> [DefTree]
-testScanner f t = [Definition "" ""]
+constScanner :: DefTree -> FilePath -> [Tag String] -> [DefTree]
+constScanner d _ _ = [d]
