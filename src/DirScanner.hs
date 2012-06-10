@@ -8,7 +8,9 @@ import System.Directory
 import System.FilePath
 import Text.HTML.TagSoup
 
-scanHtmlDocs :: FilePath -> (FilePath -> [Tag String] -> [DefTree]) -> IO [DefTree]
+type FileScanner = FilePath -> [Tag String] -> [DefTree]
+
+scanHtmlDocs :: FilePath -> FileScanner -> IO [DefTree]
 scanHtmlDocs dir scanner = do
     files  <- findHtmlFiles dir
     tags   <- mapM soupFromFile files

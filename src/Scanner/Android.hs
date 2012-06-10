@@ -2,11 +2,12 @@ module Scanner.Android where
 
 import Data.Maybe
 import Definitions
+import DirScanner
 import System.FilePath
 import TagSoupHelpers
 import Text.HTML.TagSoup
 
-scanFile :: FilePath -> [Tag String] -> [DefTree]
+scanFile :: FileScanner
 scanFile file = fromMaybe [] . maybeClass file
 
 maybeClass :: FilePath -> [Tag String] -> Maybe [DefTree]
