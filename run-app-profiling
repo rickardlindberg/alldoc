@@ -1,0 +1,3 @@
+#!/bin/sh
+./compile-app &&
+time ./dist/build/alldoc/alldoc +RTS -sstderr -p
