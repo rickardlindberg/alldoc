@@ -1,4 +1,4 @@
-module TestAndroidDocs (tests) where
+module TestAndroidScanner (tests) where
 
 import Asserts
 import Definitions
@@ -9,7 +9,7 @@ import Test.Hspec.HUnit()
 import Test.Hspec.Monadic
 import Test.HUnit
 
-tests = describe "AndroidDocs:" $ do
+tests = describe "android scanner:" $ do
 
     let scanFile f = fmap (Android.scanFile f) (soupFromFile f)
 
