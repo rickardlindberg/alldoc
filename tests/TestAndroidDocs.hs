@@ -4,14 +4,14 @@ import Asserts
 import Definitions
 import DirScanner
 import Fixtures()
-import qualified Android as A
+import qualified Scanner.Android as Android
 import Test.Hspec.HUnit()
 import Test.Hspec.Monadic
 import Test.HUnit
 
 tests = describe "AndroidDocs:" $ do
 
-    let scanFile f = fmap (A.scanTags f) (soupFromFile f)
+    let scanFile f = fmap (Android.scanFile f) (soupFromFile f)
 
     it "finds method names" $ do
         defs <- scanFile "sample-docs/android/Matrix.html"

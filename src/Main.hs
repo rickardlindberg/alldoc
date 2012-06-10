@@ -2,10 +2,10 @@ module Main (main) where
 
 import Definitions
 import DirScanner
-import qualified Android
+import qualified Scanner.Android as Android
 
 main :: IO ()
 main = do
     let androidApiDocDir = "/home/rick/downloads/android-sdk-linux/docs/reference/"
-    defs <- scanHtmlDocs androidApiDocDir Android.scanTags
+    defs <- scanHtmlDocs androidApiDocDir Android.scanFile
     mapM_ putStrLn (namespaces defs)
