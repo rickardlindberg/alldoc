@@ -1,6 +1,7 @@
 module Definitions where
 
 import Data.List.Split
+import Data.Maybe
 
 data DefTree =
       Namespace
@@ -15,11 +16,14 @@ data DefTree =
     deriving (Eq, Show)
 
 existsIn :: String -> [DefTree] -> Bool
-existsIn definitionPath tree = matchDoc (pathComponents definitionPath) tree
+existsIn definitionPath tree = isJust $ find definitionPath tree
+
+find :: String -> [DefTree] -> Maybe DefTree
+find definitionPath tree = matchDoc (pathComponents definitionPath) tree
     where
-        matchDoc :: [String] -> [DefTree] -> Bool
-        matchDoc []     tree = False
-        matchDoc [x]    tree = length (namesMatching x tree) > 0
+        matchDoc :: [String] -> [DefTree] -> Maybe DefTree
+        matchDoc []     tree = Nothing
+        matchDoc [x]    tree = listToMaybe (namesMatching x tree)
         matchDoc (x:xs) tree = matchDoc xs (expand (namesMatching x tree))
         expand :: [DefTree] -> [DefTree]
         expand []                   = []

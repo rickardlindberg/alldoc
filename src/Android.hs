@@ -4,18 +4,17 @@ import Data.Maybe
 import Definitions
 import TagSoupHelpers
 import Text.HTML.TagSoup
-import Text.StringLike
 
-scanTags :: StringLike str => [Tag str] -> [DefTree]
+scanTags :: [Tag String] -> [DefTree]
 scanTags = fromMaybe [] . maybeClass
 
-maybeClass :: StringLike str => [Tag str] -> Maybe [DefTree]
+maybeClass :: [Tag String] -> Maybe [DefTree]
 maybeClass tags = do
-    ns <- maybeClassNamespace tags
-    defs <- maybeClassDefinitions tags
-    return $ prefixWithNamespace ns defs
+    ns     <- maybeClassNamespace tags
+    defs   <- maybeClassDefinitions tags
+    return $  prefixWithNamespace ns defs
 
-maybeClassNamespace :: StringLike str => [Tag str] -> Maybe String
+maybeClassNamespace :: [Tag String] -> Maybe String
 maybeClassNamespace tags = Just tags
     >>= justSections (~== "<table class=jd-inheritance-table>")
     >>= maybeHead
@@ -23,9 +22,15 @@ maybeClassNamespace tags = Just tags
     >>= maybeLast
     >>= maybeFirstText
 
-maybeClassDefinitions :: StringLike str => [Tag str] -> Maybe [DefTree]
+maybeClassDefinitions :: [Tag String] -> Maybe [DefTree]
 maybeClassDefinitions tags = Just tags
     >>= justSections (~== "<div id=doc-content>")
     >>= maybeHead
     >>= justSections (~== "<span class=sympad>")
-    >>= Just . map ((`Definition` "") . toString . ((\(TagText x) -> x) . head) . head . sections isTagText)
+    >>= Just . mapMaybe maybeMethodDef
+
+maybeMethodDef :: [Tag String] -> Maybe DefTree
+maybeMethodDef sympadTags = do
+    url    <- maybeN 1 sympadTags >>= maybeAttribute "href"
+    name   <- maybeN 2 sympadTags >>= maybeText
+    return $  Definition name url
