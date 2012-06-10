@@ -7,6 +7,7 @@ import System.FilePath
 import Test.Hspec.HUnit()
 import Test.Hspec.Monadic
 import Test.HUnit
+import Text.HTML.TagSoup
 
 tests = describe "DirScanner:" $ do
 
@@ -21,5 +22,8 @@ tests = describe "DirScanner:" $ do
                    ]
 
     it "scans html files in directory" $ do
-        defTree <- scanHtmlDocs "sample-docs/android" (const [Definition "" ""])
+        defTree <- scanHtmlDocs "sample-docs/android" testScanner
         defTree @?= [Definition "" "", Definition "" ""]
+
+testScanner :: FilePath -> [Tag String] -> [DefTree]
+testScanner f t = [Definition "" ""]

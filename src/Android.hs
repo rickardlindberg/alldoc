@@ -5,8 +5,8 @@ import Definitions
 import TagSoupHelpers
 import Text.HTML.TagSoup
 
-scanTags :: [Tag String] -> [DefTree]
-scanTags = fromMaybe [] . maybeClass
+scanTags :: FilePath -> [Tag String] -> [DefTree]
+scanTags file = fromMaybe [] . maybeClass
 
 maybeClass :: [Tag String] -> Maybe [DefTree]
 maybeClass tags = do

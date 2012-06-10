@@ -1,21 +1,23 @@
 module TestAndroidDocs (tests) where
 
-import Android
 import Asserts
 import Definitions
 import DirScanner
 import Fixtures()
+import qualified Android as A
 import Test.Hspec.HUnit()
 import Test.Hspec.Monadic
 import Test.HUnit
 
-tests = describe "Android SDK extractor:" $ do
+tests = describe "AndroidDocs:" $ do
+
+    let scanFile f = fmap (A.scanTags f) (soupFromFile f)
 
     it "finds method names" $ do
-        soup <- soupFromFile "sample-docs/android/Matrix.html"
-        scanTags soup `assertContains` "android.graphics.Matrix.setRotate"
+        defs <- scanFile "sample-docs/android/Matrix.html"
+        defs `assertContains` "android.graphics.Matrix.setRotate"
 
     it "finds method urls" $ do
-        soup <- soupFromFile "sample-docs/android/Matrix.html"
-        let Just def = find "android.graphics.Matrix.setRotate" (scanTags soup)
+        defs <- scanFile "sample-docs/android/Matrix.html"
+        let Just def = find "android.graphics.Matrix.setRotate" defs
         url def @?= "../../../reference/android/graphics/Matrix.html#setRotate(float)"
