@@ -1,6 +1,6 @@
 #!/bin/sh
 ~/.cabal/bin/codemonitor <<EOF
 .
-tests \.hs$ sh run-tests
+tests \.hs$ sh test-app
 lint \.hs$ hlint src tests
 EOF
