@@ -15,7 +15,7 @@ scanHtmlDocs dir scanner = do
     return $  foldr foldTrees [] tags
     where
         foldTrees :: [Tag String] -> [DefTree] -> [DefTree]
-        foldTrees x y = scanner "" x ++ y
+        foldTrees x y = scanner "TODO: fill in the right thing here" x ++ y
 
 findHtmlFiles :: FilePath -> IO [FilePath]
 findHtmlFiles root = do
